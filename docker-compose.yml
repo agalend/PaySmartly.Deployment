@@ -45,7 +45,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:9083
       - PERSISTANCE_URL=http://persistancelb:9087
-      - LEGISLATION_URL=http://legislation:9090
+      - LEGISLATION_URL=http://legislation:9091
     ports:
       - "9083:9083"
     links:
@@ -59,7 +59,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:9084
       - PERSISTANCE_URL=http://persistancelb:9087
-      - LEGISLATION_URL=http://legislation:9090
+      - LEGISLATION_URL=http://legislation:9091
     ports:
       - "9084:9084"
     links:
@@ -95,9 +95,9 @@ services:
     image: agalend/pay-smartly-legislation-service
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://+:9090
+      - ASPNETCORE_URLS=http://+:9091
     ports:
-      - "9090:9090"
+      - "9091:9091"
   persistancelb:
     container_name: persistancelb
     restart: always
@@ -105,12 +105,13 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - KESTREL_ENDPOINT_PORT=9087
-      - PERSISTANCE_ENDPOINTS=["http://persistance1:9088/","http://persistance2:9089/"]
+      - PERSISTANCE_ENDPOINTS=["http://persistance1:9088/","http://persistance2:9089/","http://persistance3:9090/"]
     ports:
       - "9087:9087"
     links:
       - persistance1
       - persistance2
+      - persistance3
   persistance1:
     container_name: persistance1
     restart: always
@@ -135,11 +136,22 @@ services:
       - "9089:9089"
     links:
       - mongo
+  persistance3:
+    container_name: persistance3
+    restart: always
+    image: agalend/pay-smartly-persistance-service
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:9090
+      - CONNECTION_STRING=mongodb://mongo:27017
+    ports:
+      - "9090:9090"
+    links:
+      - mongo
   mongo:
     container_name: mongo
     image: mongo
     volumes:
-      #- ${WEBAPP_STORAGE_HOME}/site:/data/db
       - ./data:/data/db
     ports:
-      - "27017:27017"
+      - "27117:27017"
