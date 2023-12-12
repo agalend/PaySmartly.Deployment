@@ -44,12 +44,12 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:9083
-      - PERSISTANCE_URL=http://persistancelb:9087
+      - PERSISTENCE_URL=http://persistencelb:9087
       - LEGISLATION_URL=http://legislation:9091
     ports:
       - "9083:9083"
     links:
-      - persistancelb
+      - persistencelb
       - legislation
   calculations2:
     container_name: calculations2
@@ -58,12 +58,12 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:9084
-      - PERSISTANCE_URL=http://persistancelb:9087
+      - PERSISTENCE_URL=http://persistencelb:9087
       - LEGISLATION_URL=http://legislation:9091
     ports:
       - "9084:9084"
     links:
-      - persistancelb
+      - persistencelb
       - legislation
   archive1:
     container_name: archive1
@@ -72,11 +72,11 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:9085
-      - PERSISTANCE_URL=http://persistancelb:9087
+      - PERSISTENCE_URL=http://persistencelb:9087
     ports:
       - "9085:9085"
     links:
-      - persistancelb
+      - persistencelb
   archive2:
     container_name: archive2
     restart: always
@@ -84,11 +84,11 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:9086
-      - PERSISTANCE_URL=http://persistancelb:9087
+      - PERSISTENCE_URL=http://persistencelb:9087
     ports:
       - "9086:9086"
     links:
-      - persistancelb
+      - persistencelb
   legislation:
     container_name: legislation
     restart: always
@@ -98,22 +98,22 @@ services:
       - ASPNETCORE_URLS=http://+:9091
     ports:
       - "9091:9091"
-  persistancelb:
-    container_name: persistancelb
+  persistencelb:
+    container_name: persistencelb
     restart: always
     image: agalend/pay-smartly-loadbalancer-service
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - KESTREL_ENDPOINT_PORT=9087
-      - PERSISTANCE_ENDPOINTS=["http://persistance1:9088/","http://persistance2:9089/","http://persistance3:9090/"]
+      - PERSISTENCE_ENDPOINTS=["http://persistence1:9088/","http://persistence2:9089/","http://persistence3:9090/"]
     ports:
       - "9087:9087"
     links:
-      - persistance1
-      - persistance2
-      - persistance3
-  persistance1:
-    container_name: persistance1
+      - persistence1
+      - persistence2
+      - persistence3
+  persistence1:
+    container_name: persistence1
     restart: always
     image: agalend/pay-smartly-persistance-service
     environment:
@@ -124,8 +124,8 @@ services:
       - "9088:9088"
     links:
       - mongo
-  persistance2:
-    container_name: persistance2
+  persistence2:
+    container_name: persistence2
     restart: always
     image: agalend/pay-smartly-persistance-service
     environment:
@@ -136,8 +136,8 @@ services:
       - "9089:9089"
     links:
       - mongo
-  persistance3:
-    container_name: persistance3
+  persistence3:
+    container_name: persistence3
     restart: always
     image: agalend/pay-smartly-persistance-service
     environment:
