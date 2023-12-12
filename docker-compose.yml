@@ -24,7 +24,7 @@ services:
     restart: always
     image: agalend/pay-smartly-ui-service
     environment:
-      - NODE_ENV=production
+      - NODE_ENV=development
       - PORT=9081
     ports:
       - "9081:9081"
@@ -33,7 +33,7 @@ services:
     restart: always
     image: agalend/pay-smartly-ui-service
     environment:
-      - NODE_ENV=production
+      - NODE_ENV=development
       - PORT=9082
     ports:
       - "9082:9082"
