@@ -12,13 +12,6 @@ services:
       - ARCHIVE_ENDPOINTS=["http://archive1:9085/", "http://archive2:9086/"]
     ports:
       - "9080:9080"
-    links:
-      - ui1
-      - ui2
-      - calculations1
-      - calculations2
-      - archive1
-      - archive2
   ui1:
     container_name: ui1
     restart: always
@@ -48,9 +41,6 @@ services:
       - LEGISLATION_URL=http://legislation:9091
     ports:
       - "9083:9083"
-    links:
-      - persistencelb
-      - legislation
   calculations2:
     container_name: calculations2
     restart: always
@@ -62,9 +52,6 @@ services:
       - LEGISLATION_URL=http://legislation:9091
     ports:
       - "9084:9084"
-    links:
-      - persistencelb
-      - legislation
   archive1:
     container_name: archive1
     restart: always
@@ -75,8 +62,6 @@ services:
       - PERSISTENCE_URL=http://persistencelb:9087
     ports:
       - "9085:9085"
-    links:
-      - persistencelb
   archive2:
     container_name: archive2
     restart: always
@@ -87,8 +72,6 @@ services:
       - PERSISTENCE_URL=http://persistencelb:9087
     ports:
       - "9086:9086"
-    links:
-      - persistencelb
   legislation:
     container_name: legislation
     restart: always
@@ -108,10 +91,6 @@ services:
       - PERSISTENCE_ENDPOINTS=["http://persistence1:9088/","http://persistence2:9089/","http://persistence3:9090/"]
     ports:
       - "9087:9087"
-    links:
-      - persistence1
-      - persistence2
-      - persistence3
   persistence1:
     container_name: persistence1
     restart: always
@@ -122,8 +101,6 @@ services:
       - CONNECTION_STRING=mongodb://mongo:27017
     ports:
       - "9088:9088"
-    links:
-      - mongo
   persistence2:
     container_name: persistence2
     restart: always
@@ -134,8 +111,6 @@ services:
       - CONNECTION_STRING=mongodb://mongo:27017
     ports:
       - "9089:9089"
-    links:
-      - mongo
   persistence3:
     container_name: persistence3
     restart: always
@@ -146,8 +121,6 @@ services:
       - CONNECTION_STRING=mongodb://mongo:27017
     ports:
       - "9090:9090"
-    links:
-      - mongo
   mongo:
     container_name: mongo
     image: mongo
